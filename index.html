@@ -390,7 +390,7 @@ const PROMPTS=[
 
 const FREE_LIMIT=20;
 const SECRET_CODE='bietonban';
-const FORMSPREE='https://script.google.com/macros/s/AKfycbxPLXKXb39jX2dEzs1gsAPjR-UQnqdW84tTUOIPCLMc3Md6aH2jVCPT4jeK2oZ3OFOc/exec';
+const FORMSPREE='https://script.google.com/macros/s/AKfycbxPH3Dl7GfFdlfGj4OdpauWIeWN74ODDKDlic1tqfjM_LpkK2mFP9lfqlaKpxhurcI8/exec';
 
 let unlocked=localStorage.getItem('dp_unlocked')==='1';
 
@@ -415,8 +415,10 @@ async function submitEmail(){
   if(!email){document.getElementById('reg-err').textContent='Vui lòng nhập email!';return;}
   const btn=event.target;btn.textContent='Đang gửi...';btn.disabled=true;
   try{
-    await fetch(FORMSPREE,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,name,message:`Đăng ký mã code Diamond Prompt - ${name} - ${email}`})});
-    document.getElementById('reg-msg').innerHTML='<span style="color:var(--green)">✓ Đăng ký thành công! Tác giả sẽ gửi mã code cho bạn sớm nhất.</span>';
+    const fd=new FormData();
+    fd.append('email',email);fd.append('name',name);
+    await fetch(FORMSPREE,{method:'POST',body:fd,mode:'no-cors'});
+    document.getElementById('reg-msg').innerHTML='<span style="color:var(--green)">✓ Đăng ký thành công! Vui lòng kiểm tra email để nhận mã code.</span>';
     document.getElementById('reg-email').value='';document.getElementById('reg-name').value='';
   } catch(e){
     document.getElementById('reg-msg').innerHTML='<span style="color:var(--red)">Có lỗi xảy ra, vui lòng thử lại!</span>';

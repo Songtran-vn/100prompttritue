@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💎 Diamond Prompt — 100 Câu Lệnh</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+
+[data-theme="light"]{
+  --bg:#f5f4f0;--bg2:#ffffff;--bg3:#f0ede8;--bg4:#e8e4de;
+  --border:rgba(0,0,0,.09);--border2:rgba(160,120,20,.35);
+  --text:#1a1814;--muted:#7a7060;--muted2:#5a5248;
+  --gold:#9a7010;--gold-light:#b08920;--gold-dim:rgba(160,130,20,.1);
+  --green:#1a7a50;--red:#c0392b;--blue:#2563aa;
+  --shadow:0 1px 4px rgba(0,0,0,.07);
+}
+[data-theme="dark"]{
+  --bg:#0c0c10;--bg2:#14141a;--bg3:#1c1c24;--bg4:#242430;
+  --border:rgba(255,255,255,.07);--border2:rgba(201,162,39,.28);
+  --text:#ddd9f0;--muted:#7a7898;--muted2:#a09dba;
+  --gold:#c9a227;--gold-light:#e8c84a;--gold-dim:rgba(201,162,39,.15);
+  --green:#2ecc8f;--red:#e05c5c;--blue:#5b9cf6;
+  --shadow:none;
+}
+
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;transition:background .25s,color .25s}
+.shell{max-width:700px;margin:0 auto;padding:20px 16px 60px}
+
+/* HEADER */
+.header{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--border);margin-bottom:24px;gap:12px}
+.logo{font-size:10px;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.title{font-size:22px;font-weight:700;color:var(--gold-light);letter-spacing:-.01em}
+.subtitle{font-size:12px;color:var(--muted);margin-top:2px}
+.theme-toggle{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:30px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:600;color:var(--muted2);font-family:inherit;white-space:nowrap;flex-shrink:0;transition:all .2s;margin-top:4px}
+.theme-toggle:hover{border-color:var(--border2);color:var(--gold)}
+
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:22px;background:var(--bg2);border-radius:12px;padding:4px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.tab{flex:1;padding:10px 6px;border:none;background:transparent;color:var(--muted);border-radius:9px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;transition:all .2s}
+.tab.active{background:var(--gold-dim);color:var(--gold-light);border:1px solid var(--border2)}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 10px;text-align:center;box-shadow:var(--shadow)}
+.stat-n{font-size:26px;font-weight:700;line-height:1;color:var(--text)}
+.stat-n.gold{color:var(--gold-light)}
+.stat-n.green{color:var(--green)}
+.stat-l{font-size:11px;color:var(--muted);margin-top:5px}
+
+/* PROGRESS */
+.progress-wrap{margin-bottom:16px}
+.progress-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:6px}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;transition:width .4s ease}
+
+/* NAV */
+.nav-row{display:flex;align-items:center;gap:12px;margin:16px 0 14px}
+.nav-row .counter{flex:1;text-align:center;font-size:13px;color:var(--muted2);font-weight:600}
+.nav-btn{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--bg2);color:var(--text);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;box-shadow:var(--shadow)}
+.nav-btn:hover:not(:disabled){border-color:var(--border2);color:var(--gold);background:var(--bg3)}
+.nav-btn:disabled{opacity:.25;cursor:not-allowed}
+
+/* PILLS */
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.pill{padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);cursor:pointer;font-size:11px;font-weight:600;font-family:inherit;transition:all .2s}
+.pill:hover{border-color:var(--border2);color:var(--gold)}
+.pill.active{background:var(--gold-dim);border-color:var(--border2);color:var(--gold-light)}
+
+/* CARD — Fixed: header on top, body below */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:14px;box-shadow:var(--shadow);transition:border-color .2s}
+.card:hover{border-color:var(--border2)}
+.card-header{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.card-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.card-num-label{font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.15em;text-transform:uppercase}
+.card-body{font-size:14.5px;line-height:1.85;color:var(--text);word-break:break-word}
+
+/* BUTTONS */
+.actions{display:flex;gap:8px;margin-top:20px}
+.act-btn{flex:1;padding:10px 12px;border-radius:9px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:5px}
+.act-btn:hover{border-color:var(--border2);color:var(--gold)}
+.act-btn.gold-btn{border-color:var(--border2);color:var(--gold-light);background:var(--gold-dim)}
+.act-btn.gold-btn:hover{background:rgba(160,130,20,.2)}
+.act-btn.active-green{background:rgba(26,122,80,.1);border-color:rgba(26,122,80,.35);color:var(--green)}
+.act-btn.active-gold{background:var(--gold-dim);border-color:var(--border2);color:var(--gold-light)}
+
+/* REVIEW */
+.review-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:10px;flex-wrap:wrap}
+.review-title{font-size:12px;font-weight:700;color:var(--gold-light);letter-spacing:.08em;text-transform:uppercase}
+.review-actions{display:flex;gap:8px}
+.review-item{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:16px 44px 16px 18px;margin-bottom:10px;position:relative;box-shadow:var(--shadow)}
+.review-item-num{font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.review-item-text{font-size:13px;line-height:1.75;color:var(--text);word-break:break-word}
+.review-item-del{position:absolute;top:12px;right:12px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:3px 7px;border-radius:5px;transition:all .2s}
+.review-item-del:hover{color:var(--red);background:rgba(192,57,43,.1)}
+
+/* QUIZ */
+.quiz-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.quiz-label{font-size:12px;font-weight:700;color:var(--gold-light);letter-spacing:.08em;text-transform:uppercase}
+.quiz-counter{font-size:12px;color:var(--muted);font-weight:600}
+.quiz-prompt-label{font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+.quiz-half{font-size:14px;line-height:1.8;color:var(--muted2);padding:14px 16px;background:var(--bg3);border-radius:9px;border-left:3px solid var(--gold);margin-bottom:14px;word-break:break-word}
+.quiz-textarea{width:100%;padding:12px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:13.5px;line-height:1.7;resize:vertical;min-height:100px;transition:border-color .2s}
+.quiz-textarea:focus{outline:none;border-color:var(--border2)}
+.quiz-textarea::placeholder{color:var(--muted)}
+.quiz-answer{margin-top:14px;padding:16px;background:rgba(37,99,170,.06);border:1px solid rgba(37,99,170,.18);border-radius:9px;font-size:13.5px;line-height:1.8;color:var(--blue);display:none;word-break:break-word}
+[data-theme="dark"] .quiz-answer{color:#b8d0f8;background:rgba(91,156,246,.06);border-color:rgba(91,156,246,.2)}
+.quiz-answer strong{color:var(--gold-light);display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+
+/* EMPTY */
+.empty{text-align:center;padding:56px 20px;color:var(--muted)}
+.empty-icon{font-size:40px;margin-bottom:12px}
+.empty-text{font-size:14px;line-height:1.7}
+
+/* POPUP LOCK */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px}
+.popup{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:28px 24px;max-width:400px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.25)}
+.popup-icon{font-size:36px;text-align:center;margin-bottom:12px}
+.popup-title{font-size:17px;font-weight:700;color:var(--gold-light);text-align:center;margin-bottom:8px}
+.popup-desc{font-size:13px;color:var(--muted2);text-align:center;line-height:1.7;margin-bottom:20px}
+.popup-input{width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;margin-bottom:8px;transition:border-color .2s}
+.popup-input:focus{outline:none;border-color:var(--border2)}
+.popup-input::placeholder{color:var(--muted)}
+.popup-err{font-size:12px;color:var(--red);margin-bottom:10px;min-height:16px;text-align:center}
+.popup-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--muted);font-size:12px}
+.popup-divider::before,.popup-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.popup-form-msg{font-size:12px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.6}
+
+/* PRINT */
+@media print{
+  body{background:#fff!important;color:#111!important}
+  .tabs,.stats,.progress-wrap,.nav-row,.filter-row,.actions,.review-actions,.theme-toggle,.no-print{display:none!important}
+  .header{border:none;padding:8px 0}
+  .title{color:#111!important;font-size:18px}.logo,.subtitle{color:#555!important}
+  .review-item{border:1px solid #ccc!important;break-inside:avoid;page-break-inside:avoid;margin-bottom:10px;padding:12px 14px!important}
+  .review-item-num{color:#888!important}.review-item-text{color:#111!important}
+  .review-item-del,.card{display:none!important}
+  .shell{padding:0!important}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="header">
+    <div>
+      <div class="logo">Trần Đức Sông · 2026</div>
+      <div class="title">💎 Diamond Prompt</div>
+      <div class="subtitle">100 câu lệnh trải nghiệm đỉnh cao</div>
+    </div>
+    <button class="theme-toggle no-print" onclick="toggleTheme()" id="theme-btn">🌙 Tối</button>
+  </div>
+
+  <div class="tabs no-print">
+    <button class="tab active" onclick="switchTab('learn')">📖 Học lần lượt</button>
+    <button class="tab" onclick="switchTab('review')">🔖 Muốn xem lại</button>
+    <button class="tab" onclick="switchTab('quiz')">🧠 Kiểm tra</button>
+    <button class="tab" onclick="switchTab('thanks')">💛 Cảm ơn</button>
+  </div>
+
+  <!-- TAB HỌC -->
+  <div id="tab-learn">
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="s-total">100</div><div class="stat-l">Tổng số</div></div>
+      <div class="stat"><div class="stat-n green" id="s-understood">0</div><div class="stat-l">✓ Đã hiểu</div></div>
+      <div class="stat"><div class="stat-n gold" id="s-review">0</div><div class="stat-l">🔖 Xem lại</div></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span id="prog-text">Câu lệnh 1 / 100</span>
+        <span id="prog-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="filter-row no-print">
+      <button class="pill active" onclick="setFilter('all',this)">Tất cả</button>
+      <button class="pill" onclick="setFilter('new',this)">Chưa phân loại</button>
+      <button class="pill" onclick="setFilter('review',this)">Muốn xem lại</button>
+      <button class="pill" onclick="setFilter('understood',this)">Đã hiểu</button>
+    </div>
+    <div class="nav-row no-print">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592;</button>
+      <span class="counter" id="nav-counter">1 / 100</span>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">&#8594;</button>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot"></div>
+        <div class="card-num-label" id="card-num-label">CÂU LỆNH #1</div>
+      </div>
+      <div class="card-body" id="card-body">Đang tải...</div>
+      <div class="actions">
+        <button class="act-btn" id="btn-understood" onclick="markUnderstood()">✓ Đã hiểu</button>
+        <button class="act-btn" id="btn-review" onclick="markReview()">🔖 Muốn xem lại</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB XEM LẠI -->
+  <div id="tab-review" style="display:none">
+    <div class="review-header">
+      <div class="review-title">🔖 Danh sách muốn xem lại (<span id="review-count">0</span>)</div>
+      <div class="review-actions no-print">
+        <button class="act-btn gold-btn" onclick="window.print()" style="flex:none;padding:8px 16px">🖨 In ra</button>
+        <button class="act-btn" onclick="clearReview()" style="flex:none;padding:8px 14px;font-size:11px">Xóa tất cả</button>
+      </div>
+    </div>
+    <div id="review-list"></div>
+  </div>
+
+  <!-- TAB KIỂM TRA -->
+  <div id="tab-quiz" style="display:none">
+    <div class="quiz-meta">
+      <div class="quiz-label">🧠 Chế độ kiểm tra</div>
+      <div class="quiz-counter" id="quiz-counter">Câu 1 / 100</div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot"></div>
+        <div class="card-num-label" id="quiz-num-label">CÂU LỆNH #—</div>
+      </div>
+      <div class="quiz-prompt-label">Hãy hoàn thiện câu lệnh này:</div>
+      <div class="quiz-half" id="quiz-half">...</div>
+      <textarea class="quiz-textarea" id="quiz-input" placeholder="Tự điền phần còn lại của câu lệnh vào đây...&#10;&#10;Đừng lo sai — mục tiêu là ghi nhớ ý tưởng cốt lõi!"></textarea>
+      <div class="actions no-print">
+        <button class="act-btn" onclick="revealQuiz()">👁 Xem đáp án</button>
+        <button class="act-btn gold-btn" onclick="nextQuizCard()">Câu tiếp theo →</button>
+      </div>
+      <div class="quiz-answer" id="quiz-answer">
+        <strong>Câu lệnh đầy đủ:</strong>
+        <span id="quiz-full-text"></span>
+      </div>
+    </div>
+    <div class="filter-row no-print" style="margin-top:4px">
+      <button class="pill active" onclick="setQuizSource('all',this)">Kiểm tra tất cả</button>
+      <button class="pill" onclick="setQuizSource('review',this)">Chỉ câu muốn xem lại</button>
+    </div>
+  </div>
+
+  <!-- TAB CẢM ƠN -->
+  <div id="tab-thanks" style="display:none">
+    <div class="card" style="text-align:center;padding:32px 24px">
+      <div style="font-size:48px;margin-bottom:16px">💛</div>
+      <div style="font-size:18px;font-weight:700;color:var(--gold-light);margin-bottom:8px">Cảm ơn bạn đã học cùng!</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:28px">Nếu tài liệu này mang lại giá trị cho bạn,<br>hãy ủng hộ tác giả một ly cà phê trí tuệ ☕</div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:20px;margin-bottom:24px;text-align:left">
+        <div style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px">☕ Café Trí Tuệ</div>
+        <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px">Trần Đức Sông</div>
+        <div style="font-size:14px;color:var(--muted2);margin-bottom:4px">MB Bank</div>
+        <div style="font-size:22px;font-weight:700;color:var(--gold-light);letter-spacing:.05em">0974 168 705</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:left">
+        <div style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px">🤝 Cộng đồng học AI</div>
+        <div style="font-size:14px;color:var(--muted2);line-height:1.75;margin-bottom:14px">Tham gia cộng đồng học tập ứng dụng AI nâng cao cùng hàng nghìn người:</div>
+        <a href="https://zalo.me/g/ecxehk008" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--gold-dim);border:1px solid var(--border2);border-radius:9px;color:var(--gold-light);font-size:13px;font-weight:700;text-decoration:none;transition:all .2s">
+          💬 Tham gia nhóm Zalo ngay →
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- POPUP MỞ KHÓA -->
+<div class="overlay" id="lock-overlay" style="display:none">
+  <div class="popup">
+    <div class="popup-icon">🔒</div>
+    <div class="popup-title">Mở khóa 100 câu lệnh</div>
+    <div class="popup-desc">Bạn đã trải nghiệm 20 câu miễn phí.<br>Nhập mã code để mở khóa toàn bộ!</div>
+
+    <input class="popup-input" id="code-input" type="text" placeholder="Nhập mã code tại đây..." autocomplete="off" oninput="document.getElementById('code-err').textContent=''">
+    <div class="popup-err" id="code-err"></div>
+    <button class="act-btn gold-btn" onclick="submitCode()" style="width:100%;justify-content:center;padding:11px">🔓 Mở khóa</button>
+
+    <div class="popup-divider">hoặc</div>
+
+    <div class="popup-desc" style="margin-bottom:14px">Chưa có mã? Đăng ký nhận mã code miễn phí:</div>
+    <input class="popup-input" id="reg-email" type="email" placeholder="Nhập email của bạn...">
+    <input class="popup-input" id="reg-name" type="text" placeholder="Tên của bạn..." style="margin-top:8px">
+    <div class="popup-err" id="reg-err"></div>
+    <button class="act-btn" onclick="submitEmail()" style="width:100%;justify-content:center;padding:11px;margin-top:2px">📩 Đăng ký nhận mã</button>
+    <div class="popup-form-msg" id="reg-msg"></div>
+  </div>
+</div>
+
+<script>
+const PROMPTS=[
+"Tôi thấy rằng trong Vũ Trụ, vạn vật đều vận hành theo quy luật của thời gian và chu kỳ, không có bông hoa nào nở quanh năm, cũng không có sự thành công nào mãi mãi cả. Giống như những mùa vụ, khi thời vận đến mọi sự sẽ hanh thông. Hãy liệt kê ra những quy luật bất biến của thời gian mà con người không biết, để tôi ứng dụng vào cuộc sống đạt được hạnh phúc, thành công và bình an theo đúng chu kỳ của quy luật vũ Trụ",
+"Ngày hôm nay anh được một người thầy cho ba từ khóa: đúng người, đúng việc, và đúng thời điểm. Ông thầy này nói rằng, làm bất cứ một cái gì đều phải thấu hiểu ba từ khóa này. Em hãy đóng vai là một trong những chuyên gia chuyên nghiên cứu về những từ khóa để dẫn con người đến thịnh vượng, tìm hiểu sâu sắc về ba từ khóa này và phân tích tại sao ba từ khóa này lại quan trọng với đời của một con người dẫn đến thịnh vượng.",
+"Anh thấy là từ khóa biết ơn rất năng lượng và quan trọng trong cuộc sống. Em hãy đóng vai là một trong những chuyên gia chuyên nghiên cứu về những từ khóa để dẫn con người đến thịnh vượng, tìm hiểu sâu sắc về từ khóa biết ơn và phân tích tại sao từ khóa này lại quan trọng trong cuộc sống.",
+"Tại sao tôi học giỏi, có nhiều bằng cấp, có rất nhiều mối quan hệ, cũng trải nghiệm rất nhiều, làm rất nhiều công việc khác nhau, nhưng vẫn chưa thành công, vẫn chưa có tiền, thậm chí còn cảm thấy cuộc sống này bế tắc và đau khổ hơn. Tôi chưa biết lý do ở đâu. Hãy giải mã.",
+"Hiện tại, tôi đang có một người con đang vào giai đoạn chuẩn bị học đại học, nhưng mãi chơi game, xem điện thoại, nói thì không nghe, và mê game. Tôi cảm thấy bất lực và cảm thấy áp lực stress, và tôi cũng đi học rất nhiều các chương trình để giải quyết vấn đề này, nhưng vẫn chưa tìm được giải pháp nào. Tại sao lại như vậy? Tại sao con lại chơi game? Tôi đã từng dùng mọi biện pháp nhưng không được.",
+"Hãy giúp cho anh công thức để tìm ra được như thế nào được gọi là đúng người và có bao nhiêu phương thức để lựa chọn ra một con người để mình đi theo, mình đồng hành, hợp tác hay làm ăn hay làm việc. Và hãy phân tích cho anh các vị nhân hay những bậc trí tuệ thời xưa họ dùng người như thế nào.",
+"Anh phát hiện ra một điều. Anh đang sống ở dưới bầu trời và đứng trên mặt đất. Thì bây giờ anh sẽ cần phải hiểu về các định luật ở trong trái đất này, bao gồm mặt đất, bao gồm bầu trời, bao gồm vũ trụ, để anh tương thích để tồn tại, để phát triển, để thuận theo tự nhiên.",
+"Tôi rất muốn làm kinh doanh, nhưng không có vốn và không biết bắt đầu từ đâu. Làm thế nào để xây dựng được một bệ chế kinh doanh và tạo ra được thu nhập dòng tiền ổn định?",
+"Em hãy lên cho anh một lộ trình để giải quyết tận gốc vấn đề cho người con nghiện game. Hành trình trong 30 ngày biến đổi để giúp cho người con này không nghiện game nữa. Hướng dẫn anh từng bước, từng tuần, chi tiết.",
+"Anh phát hiện ra một công thức như sau: để đánh thức tâm trí con người, cách nhanh nhất là cho họ trải nghiệm. Đây là cách nhanh nhất để họ học được một điều gì đó — học qua trải nghiệm. Em thấy công thức này thế nào? Tại sao nó lại hiệu quả? Và ai là người áp dụng công thức này giỏi nhất trên thế giới?",
+"Doanh nghiệp của anh đang lãi có lợi nhuận, trừ hết chi phí đi rồi đang có khoảng tầm 10 tỷ trong công ty. Anh đang thấy rất nhiều doanh nghiệp ở Việt Nam họ có cách để hợp thức hóa thu nhập này một cách hợp pháp. Thì chiến lược hợp pháp họ đang làm kiểu gì? Không được dạy cách trốn thuế mà dạy cách hợp pháp.",
+"Đây là một cuốn sách về [chủ đề]. Em hãy đóng vai là một trong những hiền giả, những tác giả, là những người chuyên đọc sách, thấu hiểu về tất cả những cuốn sách hàng đầu thế giới. Hãy đọc và hãy viết ra cho anh tất cả những từ khóa, những thông điệp hay nhất trong cuốn sách này, dẫn dắt từ cấp độ 1 cho đến cấp độ cao nhất, để anh có thể hiểu được cuốn sách một cách nhanh chóng và áp dụng được ngay vào công việc và đời sống.",
+"Tôi đang muốn thiết kế ra một giải pháp mang lại giá trị rất lớn cho mọi người học về AI. Bạn hãy viết ra cho tôi 10 câu hỏi để tôi đi tham khảo thị trường. Nhóm khách hàng của tôi là chủ doanh nghiệp SME vừa và nhỏ. Hãy viết cho tôi 10 câu hỏi để tôi có thể đưa ra được giải pháp thiết kế cho họ về một khóa học AI đẳng cấp.",
+"Bây giờ, anh muốn giới thiệu bản thân 1 phút trước 100 người vào trong hội nghị. Anh là Trần Đức Sông — Chuyên gia đào tạo về ứng dụng AI trong công việc và phát triển bản thân. Giới thiệu kiểu gì để họ phải lắng nghe, họ phải xin số điện thoại, họ phải đi theo mình. Chỉ có 1 phút thôi!",
+"Bây giờ, em hãy viết ở cấp độ mạnh hơn nữa để cho tất cả những người ngồi ở bên dưới phải tranh nhau xin số điện thoại, ở cấp độ mà mọi người không thể ngồi yên được. Hãy đưa ra dẫn chứng cụ thể trước mặt họ là những tình huống mà họ nghe xong họ không thể ngồi ở đây được nữa.",
+"Hãy viết ra cho anh tất cả những cấu trúc, những điều kiện, những quy tắc để có thể giúp cho AI hiểu một cách chi tiết về chủ nhân, người sử dụng tài khoản ChatGPT.",
+"Tôi đang bán một loại sản phẩm thực phẩm chức năng chuyên hỗ trợ cho bệnh tiểu đường. Bây giờ bạn hãy lên cho tôi một giáo án để có thể giảng bài cho những người bị bệnh tiểu đường để họ bị thuyết phục hoàn toàn theo kiến thức y khoa rồi dẫn dắt làm thế nào để tôi bán được sản phẩm.",
+"Tôi muốn tìm hiểu sâu sắc về sức khỏe. Bạn hãy đóng vai là một bác sĩ y khoa chuyên về giải phẫu. Hãy phân tích cho tôi tất cả những chức năng, các bộ phận trong cơ thể. Và hãy phân tích cho tôi nguồn dinh dưỡng để cung cấp cho các chức năng trong cơ thể để hoạt động tốt nhất. Thời gian, thức ăn, thực phẩm, và các lưu ý làm thế nào để bộ máy chạy tốt nhất.",
+"Bạn là chuyên gia hàng đầu về ứng dụng AI trong công việc và cuộc sống. Hãy cho tôi 20 prompt thật chi tiết để tôi hỏi lại ChatGPT về các lĩnh vực phát triển bản thân và phát triển trong công việc.",
+"Hãy phân tích cho tôi 5 nguyên tắc sống của Elon Musk, Steve Jobs và Khổng Tử. Sau đó gợi ý cách áp dụng từng nguyên tắc vào công việc và đời sống hàng ngày của tôi.",
+"Bạn là một chuyên gia hàng đầu về đào tạo ứng dụng ChatGPT. Tôi là một người mới, chưa biết gì. Hãy tạo cho tôi một giáo trình học ChatGPT 7 ngày, nắm được những kiến thức cốt lõi nhất để ứng dụng ChatGPT vào cuộc sống một cách hiệu quả, bao gồm các câu lệnh thật cụ thể và chi tiết.",
+"Giải thích ChatGPT là gì cho người chưa biết gì, ngắn gọn trong 3 câu.",
+"Tôi đang làm trong lĩnh vực giáo viên. Hãy cho tôi 20 câu lệnh để tôi hỏi lại ChatGPT ứng dụng trong lĩnh vực của tôi, nâng cao hiệu quả công việc.",
+"Bạn là chuyên viết bài Facebook. Hãy viết cho tôi bài quảng cáo về yến sào Nha Trang. Sau đó đóng vai chuyên gia đặt câu lệnh PROMPT, hãy viết lại câu lệnh đó ở trạng thái chi tiết nhất, đỉnh cao nhất, khai thác sâu sắc nhất, để có thể viết được một bài viết hay nhất.",
+"Từ bây giờ, cuối mỗi câu trả lời, hãy cho tôi thêm 5 câu lệnh prompt để đào sâu hơn chủ đề phía trước. Tôi chỉ cần gõ phím từ 1 đến 5 là bạn biết phải trả lời prompt tương ứng. Nhớ lưu lại.",
+"Tôi đang muốn lên một kế hoạch tổ chức trung thu cho 300 nhân sự tổ chức ở một nhà hàng sang trọng. Ngân sách cho mỗi nhân viên là khoảng 1 triệu. Bây giờ, hãy đóng vai trò là chuyên gia tổ chức sự kiện. Hãy hỏi tôi thêm các thông tin cần thiết để lên một kế hoạch thật chi tiết, bài bản và để lại ấn tượng sâu sắc cho nhân viên.",
+"Bạn hãy đóng vai trò là 1 CHỦ TỊCH TỈNH vô cùng khó tính, cực kỳ tỉ mỉ, mỗi báo cáo đều đọc từng dòng từng chữ và đưa ra những gợi ý sắc xảo. Hãy duyệt lại báo cáo này cho tôi, kiểm tra xem có vấn đề gì không và đề xuất những gợi ý tiếp theo.",
+"Bạn là chuyên gia đào tạo hàng đầu thế giới, dạy cuốn hút, hấp dẫn người xem. Hãy kiểm tra cho tôi cái giáo án này, đưa ra những ưu và nhược điểm, và đề xuất cho tôi thêm các hoạt động để chương trình đào tạo càng hấp dẫn và cuốn hút hơn nữa.",
+"Bạn hãy đóng vai trò là một nhà hiền triết, một bậc cao nhân. Hãy dùng tư duy quan sát thiên nhiên để đúc rút ra những bài học sâu sắc thể hiện quy luật của cuộc sống. Hãy quan sát một sự vật hiện tượng bất kỳ và cho tôi 5 bài học sâu sắc và thực tiễn nhất.",
+"Từ bây giờ, khi anh gõ phím 100, hãy trả lời câu lệnh sau và nhớ lưu lại: Bạn hãy đóng vai trò là một nhà hiền triết, một bậc cao nhân. Hãy dùng tư duy quan sát thiên nhiên để đúc rút ra những bài học sâu sắc thể hiện quy luật của cuộc sống. Hãy quan sát một sự vật hiện tượng bất kỳ và cho tôi 5 bài học sâu sắc và thực tiễn nhất.",
+"Tôi đang muốn học về Marketing. Hãy cho tôi biết các từ khóa gốc mà một người muốn học, muốn trở thành chuyên gia Marketing cần phải biết để hiểu rõ và sâu sắc nhất trong lĩnh vực này.",
+"Marketing Mix (4P/7P): Product, Price, Place, Promotion (mở rộng thêm People, Process, Physical Evidence). Hãy giải thích thật chi tiết cho tôi như cho 1 bác nông dân về kiến thức này.",
+"Tôi đang muốn bán một khóa học dạy về AI trong một buổi với giá 5 triệu. Tôi cần phải làm những bước nào theo quy trình 4P để có thể bán được với giá 5 triệu một buổi mà người ta vẫn cảm thấy vui vẻ và hài lòng?",
+"Hành trình lãng quên của não bộ: sau bao lâu thì anh quên kiến thức? Làm sao để anh nhớ được kiến thức lâu nhất và đưa được kiến thức áp dụng vào thực tế?",
+"Sản phẩm thông tin là gì? Cho anh 10 loại sản phẩm thông tin phổ biến nhất.",
+"Tôi muốn xây dựng thương hiệu cá nhân một cách bài bản, chuyên nghiệp và hiệu quả trên các nền tảng TikTok, YouTube, Facebook. Hãy đóng vai là một chuyên gia thương hiệu cá nhân, xây dựng giúp tôi một lộ trình thật chi tiết, cụ thể, thực tế và có thể triển khai ngay, bao gồm cả việc xác định khán giả mục tiêu, cách xây dựng nội dung viral, lịch đăng bài tối ưu.",
+"Trong thời đại xã hội đang càng ngày càng phát triển, mỗi một ngày anh phải kết nối với 10 đến 20 khách hàng. Anh bắt buộc phải thiết kế ra một profile thật chi tiết dưới dạng PDF để bất cứ ai khi hỏi đến là anh gửi cho họ và họ sẽ nhớ đến anh. Em hãy thiết kế cho anh checklist để tạo ra một profile gồm những gì?",
+"Anh phát hiện ra rằng điểm kết thúc mới là quyết định tất cả. Thay vì mê mẩn vào hành trình thì bây giờ mình sẽ tập trung vào điểm kết thúc. Hãy phân tích cho anh điểm kết thúc của một đời người là gì? Và trước khi kết thúc thì điều gì là quan trọng nhất?",
+"Anh tìm hiểu sâu sắc về triết lý tiền bạc. Anh phát hiện mỗi người chúng ta giống như một bãi đỗ xe ô tô, mỗi chiếc ô tô là tài sản hay tiền bạc. Có những chiếc ô tô đỗ rất lâu và có những chiếc chỉ đến rồi đi. Vì vậy chúng ta cần sử dụng tiền hiệu quả chứ không thể giữ mãi. Em nghĩ sao về điều này?",
+"Tôi đang nhận một trách nhiệm kèm cặp một đứa trẻ 5 tuổi, con trai, đang sống tại Việt Nam. Mong muốn đứa trẻ này sau này trở thành một người toàn năng, lãnh đạo thế giới. Thì những người này cần phải có năng lực gì? Tôi cần phải định hướng những gì để đứa trẻ này lớn lên có thể vươn tầm thế giới?",
+"Cho anh khái niệm và cách ứng dụng hiệu quả OKRs.",
+"Làm sao để gia tăng niềm tin để học viên mua khóa học và làm thế nào để tăng được cảm xúc để ra quyết định mua nhanh?",
+"Anh đang là chủ tịch của một công ty trách nhiệm hữu hạn, doanh thu khoảng tầm 2 tỷ một tháng và có rất nhiều nguồn thu. Anh không có kiến thức kế toán. Hãy lên cho anh checklist để kiểm tra chéo và kiểm soát người kế toán trưởng bằng cách nào. Hướng dẫn thật chi tiết.",
+"Dựa vào Tháp Nhu Cầu Maslow 5 tầng, với mỗi tầng nhu cầu hãy tạo ra cho anh những chiến lược để thu hút hay tạo ra những sản phẩm để bán cho từng nhóm nhu cầu và tạo ra giải pháp triệt để cho từng nhu cầu.",
+"Anh phát hiện ra rằng bản chất cuộc đời ai rồi cũng phải kết thúc, chỉ là sớm hay muộn. Và anh muốn hướng đến một cái đích lớn nhất trong một lần được sống: đó là để lại di sản trí tuệ cho nhân loại. Chính vì điều đó anh chọn ngành đào tạo để làm việc. Em thấy sao về tầm nhìn này?",
+"Những người không có năng lực đào tạo thì đóng gói lại kiến thức của các cao nhân để truyền đạt lại. Hãy liệt kê danh sách những vĩ nhân đã để lại di sản trí tuệ lớn nhất cho nhân loại.",
+"Cho anh những từ khóa và giá trị cốt lõi của Khổng Tử để anh áp dụng được ngay vào cuộc sống.",
+"Dựa vào các nội dung này để anh đào tạo các bạn nhân viên để thấu hiểu và biết cách chăm sóc khách hàng ở cấp độ sâu sắc nhất.",
+"Bán hàng thực phẩm chức năng: đừng nói về sản phẩm vì lâu dài sẽ thay đổi, phải thật giỏi các nền tảng trong cơ thể (là những điều không thay đổi). Nói về triết lý — là điều luôn đúng. Thì sản phẩm tự khắc sẽ bán được. Em có thể giúp anh áp dụng triết lý này như thế nào?",
+"Hãy phân tích chi tiết cơ chế, hoạt động, nguyên lý của quả tim. Con người hoạt động như thế nào? Cơ chế ra làm sao? Và tại sao lại phải cần có trái tim? Hãy phân tích thật kỹ để anh trở thành chuyên gia về tim mạch hàng đầu thế giới. Anh chuẩn bị có một buổi thuyết trình đứng trước các nhà khoa học Nobel y học thế giới.",
+"Hãy viết cho tôi 1 cuốn Ebook về Tầm quan trọng của các cơ quan trong cơ thể, viết theo phong cách thân thiện như người bạn đang kể chuyện.",
+"Trong marketing đừng đợi đến hoàn hảo mới làm mà phải hoàn thành. Marketing là sự lặp lại liên tục để khách hàng nhớ tới bạn. Tạo trí nhớ trong đầu khách hàng — vì trí nhớ tạo niềm tin và niềm tin tạo ra hành vi mua. Em hãy phân tích sâu hơn về triết lý này và cho anh 5 chiến lược cụ thể.",
+"Marketing là nghệ thuật đánh trúng nhu cầu, bán thứ khách hàng cần chứ không phải thứ mình có. Họ đang đau ở đâu thì gãi đúng chỗ ngứa. Em hãy phân tích và đưa ra 5 ví dụ thực tế về cách áp dụng triết lý này.",
+"Hãy tạo ra bối cảnh giả định như sau: Trong một bàn làm việc có 10 người có nhiều ngành khác nhau, họ là người thành công. Bây giờ tôi ngồi làm những việc gì để thấu hiểu họ và bán bảo hiểm nhân thọ cho họ?",
+"Đây là 1 câu lệnh, hãy viết lại câu lệnh này hay hơn, chi tiết hơn rồi sau đó hãy trả lời.",
+"Vĩ nhân là gì? Đợt này anh đang dành thời gian để nghiên cứu về các vĩ nhân trên thế giới, tại sao họ lại thành công, tại sao họ lại đạt được các thành tựu lớn. Em hãy cho anh danh sách của những vĩ nhân và phân tích họ theo cấu trúc: hoàn cảnh xuất thân, điểm bước ngoặt, di sản để lại.",
+"Cho anh danh sách vĩ nhân trong lĩnh vực giáo dục.",
+"Ngày hôm nay, tôi khám phá ra một bí mật: để học bất cứ điều gì, chúng ta đều phải trải qua một quy trình: nhận biết kiến thức, thấu hiểu kiến thức, rồi hành động dựa trên kiến thức đó. Quan trọng hơn cả là phải biến việc học và hành động thành thói quen hằng ngày. Vậy, em đánh giá thế nào về chiến lược này?",
+"Hãy phân tích cho anh hành trình của một đời người từ 5 tuổi cho đến 80 tuổi cần phải hình thành những thói quen nào, ở độ tuổi nào, và mỗi một độ tuổi, mỗi một giai đoạn thì cần phải duy trì những thói quen nào để cuộc sống có sự thịnh vượng, bền vững, và hạnh phúc đời đời.",
+"Hiện tại, anh đang là một nhà đầu tư bất động sản. Anh muốn trở thành bậc thầy về đầu tư và chiến thắng trong thị trường này. Em hãy liệt kê ra cho anh 10 thói quen của một nhà đầu tư thành công và tài ba trong lĩnh vực bất động sản để anh thực hành mỗi ngày.",
+"Tôi muốn trở thành một nhà đào tạo trên Zoom Online, dạy về những khóa học phát triển bản thân, dạy về cách sử dụng AI, dạy về tài chính, dạy về bán hàng. Hãy liệt kê cho tôi tất cả những thói quen cần có của một nhà đào tạo nổi tiếng hằng ngày cần phải làm những gì.",
+"Tôi phát hiện ra: nếu phải rời khỏi trái đất này và chỉ có đúng một phút để nói chuyện với những người thân của mình, thì lúc này một phút đó sẽ nói những cái gì ý nghĩa nhất? Hãy tạo ra cho tôi tất cả những câu nói dành cho những người chuẩn bị rời khỏi thế giới này.",
+"Anh muốn trở thành một vĩ nhân trong cuộc đời này, bởi vì mỗi một người sẽ đều được sinh ra một lần duy nhất. Bây giờ, em hãy viết ra cho anh tất cả những thói quen để có thể trở thành một vĩ nhân trong thế giới này.",
+"Bạn hãy viết ra cho tôi tất cả những thói quen để hạ gục một vĩ nhân. Để tôi muốn một vĩ nhân họ không còn phát triển được nữa và họ sẽ dẫn đến việc suy tàn, thì hãy tạo thói quen nào cho họ?",
+"Anh đang đào tạo về AI. Hãy áp dụng những kiến thức và từ khóa của Khổng Tử vào lĩnh vực AI để tạo ra những bài giảng sâu sắc và có chiều sâu triết lý.",
+"Phân tích cho anh Mô hình Value Proposition Canvas của Grab: họ tạo ra giá trị gì cho khách hàng, giải quyết pain point gì, và gain creator là gì?",
+"Anh đang thấy rất nhiều người bị bệnh ung thư ở Việt Nam và trên thế giới. Anh muốn tạo ra một trợ lý GPT-S chuyên về giải pháp hỗ trợ cho người dùng tìm hiểu về các căn bệnh ung thư và các giải pháp. Để tạo được trợ lý này, cần phải hiểu những gì? Hãy liệt kê ra tất cả những gạch đầu dòng để anh tạo trợ lý.",
+"Trong lĩnh vực bán thực phẩm chức năng theo mô hình MLM, cần 3 từ khóa: Tuyển người, Đào tạo người, Giữ người trong đội nhóm. Bây giờ, em hãy đóng vai là một bậc thầy phát triển hệ thống MLM. Hãy định hướng cho anh một chiến lược toàn diện trong 3 tháng để tuyển dụng được 100 thủ lĩnh.",
+"Từ bây giờ, anh bấm phím số 1. Em hãy lên cho anh một giáo án để dạy cho tất cả những người mới học về AI để họ hiểu được câu lệnh là gì, prompt là gì, và cách đặt câu lệnh như thế nào cho hiệu quả. Phải đưa ra một giáo án để cho học sinh lớp 5 cũng có thể hiểu được.",
+"Cộng đồng CMA Diamond là một cộng đồng cao cấp nhất của anh. Cộng đồng này sẽ chia sẻ tất cả những chiến lược, những cơ hội kinh doanh trong cuộc sống, đặc biệt giải quyết bài toán tài chính, giải quyết ba từ khóa: trí tuệ, sức khỏe, trải nghiệm. Hãy lưu lại thông tin này và sau này khi anh nhắc đến CMA Diamond, hãy trả lời ở cấp độ thông thái nhất.",
+"Hãy viết cho anh một bức thư gửi đến học viên Thúy Hiền để mời họ vào CMA Diamond. Bức thư với giọng văn chân thành và kết nối. Họ đọc xong phải liên hệ để gia nhập. Nếu không gia nhập, mất ăn mất ngủ 7 ngày.",
+"Hiện tại, cả xã hội đang sử dụng ChatGPT mới chỉ ở vòng ngoài. Anh sẽ mở ra một chương trình nghề code AI cá nhân hóa dành cho từng người. Mỗi chủ doanh nghiệp sẽ trả cho anh 10 triệu và anh đồng hành với họ trong 6 tháng để họ giỏi tất cả những gì về AI. Mục tiêu giúp 200 người. Em thấy chiến lược này sao?",
+"Hãy cho tôi biết cách sử dụng bạn và hãy cho tôi 5 câu lệnh mẫu để sử dụng bạn hiệu quả nhất.",
+"Hiểu về khái niệm của GPT-S (Custom GPT) là gì và làm thế nào để tạo ra một GPT-S hiệu quả phục vụ cho một lĩnh vực cụ thể?",
+"TỪ KHÓA HƯỚNG DẪN SỬ DỤNG: Mua một chiếc xe BMW X7 đời 2025. Có rất nhiều chức năng mới và anh cần tìm hiểu cách sử dụng. Em hãy viết ra cho anh một bản hướng dẫn sử dụng chi tiết để anh có thể làm chủ được chiếc xe này.",
+"TỪ KHÓA KHÁI NIỆM: Thầy giáo của tôi dạy rằng muốn nắm chủ bất cứ thứ gì trên cuộc đời này thì cần phải hiểu về khái niệm. Muốn có đền thì phải hiểu khái niệm đền là gì. Muốn nuôi con chó thì phải hiểu khái niệm con chó là gì. Muốn giữ được người vợ, người chồng thì phải hiểu khái niệm về họ. Em đánh giá sao về từ khóa này?",
+"TỪ KHÓA THẤU HIỂU: Anh là một chuyên gia bán hàng và muốn bán bất cứ một mặt hàng nào cho bất cứ ai. Anh thấu hiểu một điều: muốn bán được hàng cho loài người, thì anh cần phải hiểu được hành vi, tâm lý, mong muốn, suy nghĩ, nhu cầu của loài người. Em thấy điều này có đúng không và hãy phân tích sâu hơn.",
+"Anh đang kinh doanh trong lĩnh vực bán thực phẩm chức năng, đặc biệt là sản phẩm lợi khuẩn, và phát triển theo mô hình MLM. Em hãy đóng vai là một chuyên gia phát triển hệ thống MLM hàng đầu thế giới và cho anh chiến lược: Nên bắt đầu từ đâu? Làm gì để thu hút và tuyển dụng người? Đào tạo thế nào để họ giỏi và giữ được họ lâu dài?",
+"Anh muốn học sâu về quản trị và điều hành nhân sự trong doanh nghiệp. Em hãy giúp anh liệt kê 5 chuyên gia giỏi nhất thế giới trong lĩnh vực này — những người có tầm ảnh hưởng, có lý thuyết, mô hình hoặc công trình thực tiễn nổi bật mà anh có thể học hỏi theo.",
+"Dựa vào thông tin của 5 chuyên gia giỏi về quản trị nhân sự, hãy tạo ra cho anh một bài đào tạo để dạy lại cho anh các chiến lược về quản trị nhân sự. Anh là một doanh nghiệp, có khoảng 200 nhân sự, làm về lĩnh vực đào tạo.",
+"Anh biết rằng để sử dụng được AI hiệu quả đặc biệt là phần tuỳ chỉnh ChatGPT. Bây giờ hãy cho anh biết về khái niệm tuỳ chỉnh ChatGPT là gì, hướng dẫn thật chi tiết và cho anh tất cả các thông tin trong phần tuỳ chỉnh ChatGPT và cho anh các ví dụ để điền vào các phần ô thông tin.",
+"Người ở phương Tây đa phần có sự bình an ở trên gương mặt. Còn những người ở phương Đông, thì luôn có một điều gì đó khắc khổ, suy nghĩ, mệt mỏi. Em hãy đánh giá cho anh tại sao người phương Tây có thể gạt bỏ được điều đấy. Còn người phương Đông, thì chưa làm được?",
+"Khi tuyển dụng, quản lý con người cần học những kiến thức gốc nào? Hãy liệt kê và giải thích các công cụ như DISC, SOP, KPI và những gì cần thiết khác.",
+"DISC, EQ, SMART, KPI. Giải thích những thông tin này 1 cách đơn giản và dễ hiểu nhất, lập thành bảng so sánh.",
+"Tôi muốn làm đào tạo thì cần học những kiến thức gốc nào? Hãy liệt kê từ A đến Z những gì cần biết để trở thành một nhà đào tạo chuyên nghiệp.",
+"5 bước kinh điển trong thiết kế đào tạo: Analyze – Design – Develop – Implement – Evaluate. Giải thích đơn giản, ngắn gọn cho từng bước.",
+"Mục tiêu của doanh nghiệp tôi năm tới là 100 tỷ. Mục tiêu này đã SMART chưa? Hãy phân tích theo từng tiêu chí và giúp tôi viết lại mục tiêu đó cho thật SMART.",
+"SOP trong công ty là gì? Tại sao cần có SOP và làm thế nào để viết một SOP hiệu quả?",
+"SOP chuẩn cho MC của 1 buổi zoom đào tạo: từ trước khi vào học đến khi kết thúc buổi.",
+"SOP cho 1 giảng viên chuẩn bị 1 buổi lên Zoom đào tạo về A.I: từ khâu chuẩn bị nội dung đến sau buổi học.",
+"Bạn là chuyên gia hàng đầu thế giới trong lĩnh vực quan sát, đúc kết hàng nghìn năm lịch sử một cách sâu sắc. Mỗi khi tôi gõ một điều gì, vật gì, hiện tượng gì thì hãy tập hợp hội đồng trí tuệ ưu tú từ hàng nghìn năm lịch sử để đưa ra các bài học và ứng dụng vào công việc Người truyền lửa, MC dẫn dắt lớp học. Làm sao đọc cho có vần, có điệu, ngôn từ giàu cảm xúc.",
+"Bạn là chuyên gia hàng đầu thế giới trong lĩnh vực quan sát, đúc kết hàng nghìn năm lịch sử một cách sâu sắc để áp dụng các bài học vào công việc đào tạo. Mỗi khi tôi gõ một điều gì, vật gì, hiện tượng gì thì hãy tập hợp hội đồng trí tuệ ưu tú để đưa ra các bài học và ứng dụng vào công việc đào tạo truyền cảm hứng.",
+"Bạn là chuyên gia hàng đầu thế giới trong lĩnh vực Huấn luyện AI cá nhân hoá trong công việc. Tôi là người đào tạo ứng dụng AI, 50 tuổi, sống ở Nha Trang. Mỗi khi tôi đưa một lĩnh vực bất kỳ vào phần chat này, hãy tiến hành áp dụng việc huấn luyện cá nhân hoá AI trong công việc của lĩnh vực tôi quan tâm.",
+"Tôi đang là một giáo viên. Bây giờ tôi muốn tạo ra nhiều dòng tiền từ AI ChatGPT ngay cả khi tôi đang ngủ để tạo ra thu nhập thụ động, để tiền lại sinh ra tiền.",
+"Cho tôi 10 câu hỏi để tạo ra dòng tiền nhờ ứng dụng ChatGPT.",
+"Công thức kiếm tiền từ AI: viết nhật ký vấn đề có trong xã hội và vấn đề của mình, nghĩ ra câu lệnh để giải quyết những vấn đề đó, rồi biến câu lệnh thành câu lệnh để đời. Ví dụ: xã hội không biết bắt đầu học AI từ đâu. Hãy phân tích và mở rộng công thức này.",
+"Giải thích thuật toán của nền tảng YouTube, Facebook, TikTok và cách để nội dung của tôi được đề xuất nhiều hơn?",
+"Tôi muốn biết quy mô thị trường của sản phẩm này, ngành hàng này là bao nhiêu và tiềm năng tăng trưởng trong 5 năm tới như thế nào?",
+"Làm mọi thứ quy về trải nghiệm: ăn gì? Kết nối với ai?... Anh đi Hàn Quốc cho anh biết cần đi đâu để có trải nghiệm đặc biệt nhất mà người thường không biết.",
+"Bạn hãy đóng vai là một chuyên gia về đọc sách, thấu hiểu sách, nghiên cứu sách, và có thể tổng hợp được tất cả những kiến thức hay nhất trong sách để viết ra chi tiết những từ khóa, thông điệp, tiêu đề hay nhất để trình bày lại cho tôi. Ngay sau đây, tôi sẽ gửi nội dung cuốn sách cho bạn và bạn thực hành nhiệm vụ này."
+];
+
+const FREE_LIMIT=20;
+const SECRET_CODE='bietonban';
+const FORMSPREE='https://formspree.io/f/xjgjgkvg';
+
+let unlocked=localStorage.getItem('dp_unlocked')==='1';
+
+function isLocked(realIdx){return !unlocked && realIdx>=FREE_LIMIT;}
+
+function showLock(){document.getElementById('lock-overlay').style.display='flex';}
+function hideLock(){document.getElementById('lock-overlay').style.display='none';}
+
+function submitCode(){
+  const val=document.getElementById('code-input').value.trim().toLowerCase();
+  if(val===SECRET_CODE){
+    unlocked=true;localStorage.setItem('dp_unlocked','1');
+    hideLock();renderLearn();
+  } else {
+    document.getElementById('code-err').textContent='Mã code không đúng. Vui lòng thử lại!';
+  }
+}
+
+async function submitEmail(){
+  const email=document.getElementById('reg-email').value.trim();
+  const name=document.getElementById('reg-name').value.trim();
+  if(!email){document.getElementById('reg-err').textContent='Vui lòng nhập email!';return;}
+  const btn=event.target;btn.textContent='Đang gửi...';btn.disabled=true;
+  try{
+    await fetch(FORMSPREE,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,name,message:`Đăng ký mã code Diamond Prompt - ${name} - ${email}`})});
+    document.getElementById('reg-msg').innerHTML='<span style="color:var(--green)">✓ Đăng ký thành công! Tác giả sẽ gửi mã code cho bạn sớm nhất.</span>';
+    document.getElementById('reg-email').value='';document.getElementById('reg-name').value='';
+  } catch(e){
+    document.getElementById('reg-msg').innerHTML='<span style="color:var(--red)">Có lỗi xảy ra, vui lòng thử lại!</span>';
+  }
+  btn.textContent='📩 Đăng ký nhận mã';btn.disabled=false;
+}
+
+
+function toggleTheme(){isDark=!isDark;document.documentElement.setAttribute('data-theme',isDark?'dark':'light');document.getElementById('theme-btn').textContent=isDark?'☀️ Sáng':'🌙 Tối';}
+
+let state={};
+try{state=JSON.parse(localStorage.getItem('dp_state')||'{}');}catch(e){}
+let currentIdx=0,filter='all',filteredList=[],quizOrder=[],quizIdx=0,quizSource='all';
+
+function save(){try{localStorage.setItem('dp_state',JSON.stringify(state));}catch(e){}}
+function countOf(v){return Object.values(state).filter(x=>x===v).length;}
+
+function buildList(){
+  if(filter==='all') filteredList=[...Array(PROMPTS.length).keys()];
+  else if(filter==='new') filteredList=[...Array(PROMPTS.length).keys()].filter(i=>!state[i]);
+  else if(filter==='review') filteredList=[...Array(PROMPTS.length).keys()].filter(i=>state[i]==='review');
+  else filteredList=[...Array(PROMPTS.length).keys()].filter(i=>state[i]==='understood');
+  if(currentIdx>=filteredList.length) currentIdx=Math.max(0,filteredList.length-1);
+}
+
+function renderLearn(){
+  buildList();
+  document.getElementById('s-understood').textContent=countOf('understood');
+  document.getElementById('s-review').textContent=countOf('review');
+  const done=countOf('understood')+countOf('review');
+  const pct=Math.round(done/PROMPTS.length*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-pct').textContent=pct+'%';
+  if(!filteredList.length){
+    document.getElementById('prog-text').textContent='Không có câu lệnh nào';
+    document.getElementById('nav-counter').textContent='0 / 0';
+    document.getElementById('card-num-label').textContent='—';
+    document.getElementById('card-body').textContent='Không có câu lệnh nào trong bộ lọc này.';
+    document.getElementById('prev-btn').disabled=true;
+    document.getElementById('next-btn').disabled=true;
+    document.getElementById('btn-understood').className='act-btn';
+    document.getElementById('btn-review').className='act-btn';
+    return;
+  }
+  const ri=filteredList[currentIdx];
+  document.getElementById('prog-text').textContent=`Câu lệnh ${currentIdx+1} / ${filteredList.length}`;
+  document.getElementById('nav-counter').textContent=`${currentIdx+1} / ${filteredList.length}`;
+  document.getElementById('card-num-label').textContent=`CÂU LỆNH #${ri+1}`;
+  if(isLocked(ri)){
+    document.getElementById('card-body').innerHTML='<span style="color:var(--muted);font-style:italic">🔒 Câu lệnh này đã bị khóa. Nhập mã code để mở khóa toàn bộ.</span>';
+    document.getElementById('btn-understood').className='act-btn';document.getElementById('btn-understood').disabled=true;
+    document.getElementById('btn-review').className='act-btn';document.getElementById('btn-review').disabled=true;
+    showLock();return;
+  }
+  document.getElementById('btn-understood').disabled=false;
+  document.getElementById('btn-review').disabled=false;
+  document.getElementById('card-body').textContent=PROMPTS[ri];
+  document.getElementById('prev-btn').disabled=currentIdx===0;
+  document.getElementById('next-btn').disabled=currentIdx===filteredList.length-1;
+  const st=state[ri]||'';
+  const bu=document.getElementById('btn-understood');
+  const br=document.getElementById('btn-review');
+  bu.className=st==='understood'?'act-btn active-green':'act-btn';
+  bu.textContent=st==='understood'?'✓ Đã hiểu rồi!':'✓ Đã hiểu';
+  br.className=st==='review'?'act-btn active-gold':'act-btn';
+  br.textContent=st==='review'?'🔖 Đã đánh dấu':'🔖 Muốn xem lại';
+}
+
+function navigate(d){
+  const next=Math.max(0,Math.min(filteredList.length-1,currentIdx+d));
+  if(isLocked(filteredList[next])){showLock();return;}
+  currentIdx=next;renderLearn();
+}
+
+function markUnderstood(){
+  const ri=filteredList[currentIdx];
+  state[ri]=state[ri]==='understood'?undefined:'understood';
+  if(!state[ri])delete state[ri];
+  save();renderLearn();
+  if(filter!=='understood'&&currentIdx<filteredList.length-1) setTimeout(()=>navigate(1),280);
+}
+function markReview(){
+  const ri=filteredList[currentIdx];
+  state[ri]=state[ri]==='review'?undefined:'review';
+  if(!state[ri])delete state[ri];
+  save();renderLearn();
+}
+function setFilter(f,el){
+  filter=f;document.querySelectorAll('#tab-learn .pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');currentIdx=0;renderLearn();
+}
+
+function renderReview(){
+  const idxs=[...Array(PROMPTS.length).keys()].filter(i=>state[i]==='review');
+  document.getElementById('review-count').textContent=idxs.length;
+  const list=document.getElementById('review-list');
+  if(!idxs.length){list.innerHTML='<div class="empty"><div class="empty-icon">🔖</div><div class="empty-text">Chưa có câu lệnh nào được đánh dấu.<br><br>Quay lại tab <strong>Học lần lượt</strong><br>và nhấn <strong>🔖 Muốn xem lại</strong> để thêm vào đây.</div></div>';return;}
+  list.innerHTML=idxs.map(i=>`<div class="review-item"><div class="review-item-num">Câu lệnh #${i+1}</div><div class="review-item-text">${PROMPTS[i]}</div><button class="review-item-del" onclick="removeReview(${i})">✕</button></div>`).join('');
+}
+function removeReview(i){delete state[i];save();renderReview();renderLearn();}
+function clearReview(){if(!confirm('Xóa toàn bộ danh sách muốn xem lại?'))return;Object.keys(state).forEach(k=>{if(state[k]==='review')delete state[k];});save();renderReview();renderLearn();}
+
+function initQuiz(){
+  let pool=quizSource==='review'?[...Array(PROMPTS.length).keys()].filter(i=>state[i]==='review'):[...Array(PROMPTS.length).keys()];
+  if(!pool.length) pool=[...Array(PROMPTS.length).keys()];
+  quizOrder=pool.sort(()=>Math.random()-.5);quizIdx=0;showQuizCard();
+}
+function showQuizCard(){
+  const ri=quizOrder[quizIdx%quizOrder.length];
+  const words=PROMPTS[ri].split(' ');
+  const half=Math.max(5,Math.floor(words.length*.5));
+  document.getElementById('quiz-num-label').textContent=`CÂU LỆNH #${ri+1}`;
+  document.getElementById('quiz-counter').textContent=`Câu ${(quizIdx%quizOrder.length)+1} / ${quizOrder.length}`;
+  document.getElementById('quiz-half').textContent=words.slice(0,half).join(' ')+'...';
+  document.getElementById('quiz-input').value='';
+  document.getElementById('quiz-answer').style.display='none';
+  document.getElementById('quiz-full-text').textContent=PROMPTS[ri];
+}
+function revealQuiz(){document.getElementById('quiz-answer').style.display='block';}
+function nextQuizCard(){quizIdx++;showQuizCard();}
+function setQuizSource(src,el){quizSource=src;document.querySelectorAll('#tab-quiz .pill').forEach(p=>p.classList.remove('active'));el.classList.add('active');initQuiz();}
+
+function switchTab(tab){
+  ['learn','review','quiz','thanks'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'':'none');
+  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active',['learn','review','quiz','thanks'][i]===tab));
+  if(tab==='review') renderReview();
+  if(tab==='quiz') initQuiz();
+}
+
+renderLearn();
+</script>
+</body>
+</html>

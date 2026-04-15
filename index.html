@@ -274,39 +274,82 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--te
 <!-- POPUP MỞ KHÓA -->
 <div class="overlay" id="lock-overlay" style="display:none">
   <div class="popup">
-    <div class="popup-icon">🔒</div>
-    <div class="popup-title">Mở khóa 100 câu lệnh</div>
-    <div class="popup-desc">Bạn đã trải nghiệm 20 câu miễn phí.<br>Nhập mã code để mở khóa toàn bộ!</div>
 
-    <input class="popup-input" id="code-input" type="text" placeholder="Nhập mã code tại đây..." autocomplete="off" oninput="document.getElementById('code-err').textContent=''">
-    <div class="popup-err" id="code-err"></div>
-    <button class="act-btn gold-btn" onclick="submitCode()" style="width:100%;justify-content:center;padding:11px">🔓 Mở khóa</button>
+    <div class="popup-body">
+      <div class="popup-icon">🔒</div>
+      <div class="popup-title">Mở khóa 100 câu lệnh</div>
+      <div class="popup-desc">
+        Bạn đã trải nghiệm 20 câu miễn phí.<br>
+        Nhập mã code để mở khóa toàn bộ!
+      </div>
 
-    <div class="popup-divider">hoặc</div>
+      <input class="popup-input" id="code-input" type="text"
+        placeholder="Nhập mã code tại đây..."
+        autocomplete="off"
+        oninput="document.getElementById('code-err').textContent=''">
 
-    <div class="popup-cafe">
-      <div class="popup-cafe-title">☕ Chưa có mã? Ủng hộ tác giả 1 ly cafe trí tuệ để nhận mã nhé!</div>
-      <div class="popup-cafe-bank">0974 168 705</div>
-      <div class="popup-cafe-sub">MB Bank · Trần Đức Sông</div>
+      <div class="popup-err" id="code-err"></div>
+
+      <button class="act-btn gold-btn"
+        onclick="submitCode()"
+        style="width:100%;justify-content:center;padding:11px">
+        🔓 Mở khóa
+      </button>
+
+      <div class="popup-divider">hoặc</div>
+
+      <div class="popup-cafe">
+        <div class="popup-cafe-title">
+          ☕ Chưa có mã? Ủng hộ tác giả 1 ly cafe trí tuệ để nhận mã nhé!
+        </div>
+        <div class="popup-cafe-bank">0974 168 705</div>
+        <div class="popup-cafe-sub">MB Bank · Trần Đức Sông</div>
+      </div>
+
+      <div class="rating-label">💬 Cảm nhận của bạn về app</div>
+
+      <div class="rating-group">
+        <button class="rating-btn" onclick="selectRating(this,'Hay - 20.000đ')">
+          😊 Hay<br>
+          <span style="color:var(--gold);font-size:13px;font-weight:700">20.000đ</span>
+        </button>
+
+        <button class="rating-btn" onclick="selectRating(this,'Rất hay - 50.000đ')">
+          🌟 Rất hay<br>
+          <span style="color:var(--gold);font-size:13px;font-weight:700">50.000đ</span>
+        </button>
+
+        <button class="rating-btn" onclick="selectRating(this,'Rất tuyệt vời - 100.000đ')">
+          🔥 Rất tuyệt vời<br>
+          <span style="color:var(--gold);font-size:13px;font-weight:700">100.000đ</span>
+        </button>
+
+        <button class="rating-btn" onclick="selectRating(this,'Đỉnh cao - 500.000đ')">
+          💎 Đỉnh cao<br>
+          <span style="color:var(--gold);font-size:13px;font-weight:700">500.000đ</span>
+        </button>
+      </div>
+
+      <input type="hidden" id="reg-rating" value="">
+
+      <input class="popup-input" id="reg-email" type="email" placeholder="Nhập email của bạn...">
+      <input class="popup-input" id="reg-name" type="text" placeholder="Tên của bạn..." style="margin-top:8px">
+
+      <div class="popup-err" id="reg-err"></div>
     </div>
 
-    <div class="rating-label">💬 Cảm nhận của bạn về app</div>
-    <div class="rating-group">
-      <button class="rating-btn" onclick="selectRating(this,'Hay - 20.000đ')">😊 Hay<br><span style="color:var(--gold);font-size:13px;font-weight:700">20.000đ</span></button>
-      <button class="rating-btn" onclick="selectRating(this,'Rất hay - 50.000đ')">🌟 Rất hay<br><span style="color:var(--gold);font-size:13px;font-weight:700">50.000đ</span></button>
-      <button class="rating-btn" onclick="selectRating(this,'Rất tuyệt vời - 100.000đ')">🔥 Rất tuyệt vời<br><span style="color:var(--gold);font-size:13px;font-weight:700">100.000đ</span></button>
-      <button class="rating-btn" onclick="selectRating(this,'Đỉnh cao - 500.000đ')">💎 Đỉnh cao<br><span style="color:var(--gold);font-size:13px;font-weight:700">500.000đ</span></button>
+    <!-- Footer luôn nhìn thấy -->
+    <div class="popup-footer">
+      <button class="act-btn"
+        onclick="submitEmail()"
+        style="width:100%;justify-content:center;padding:11px">
+        📩 Đăng ký nhận mã
+      </button>
+      <div class="popup-form-msg" id="reg-msg"></div>
     </div>
-    <input type="hidden" id="reg-rating" value="">
 
-    <input class="popup-input" id="reg-email" type="email" placeholder="Nhập email của bạn...">
-    <input class="popup-input" id="reg-name" type="text" placeholder="Tên của bạn..." style="margin-top:8px">
-    <div class="popup-err" id="reg-err"></div>
-    <button class="act-btn" onclick="submitEmail()" style="width:100%;justify-content:center;padding:11px;margin-top:8px">📩 Đăng ký nhận mã</button>
-    <div class="popup-form-msg" id="reg-msg"></div>
   </div>
 </div>
-
 <script>
 const PROMPTS=[
 "Tôi thấy rằng trong Vũ Trụ, vạn vật đều vận hành theo quy luật của thời gian và chu kỳ, không có bông hoa nào nở quanh năm, cũng không có sự thành công nào mãi mãi cả. Giống như những mùa vụ, khi thời vận đến mọi sự sẽ hanh thông. Hãy liệt kê ra những quy luật bất biến của thời gian mà con người không biết, để tôi ứng dụng vào cuộc sống đạt được hạnh phúc, thành công và bình an theo đúng chu kỳ của quy luật vũ Trụ",
